@@ -1,0 +1,249 @@
++ original react developer (source: http://www.infoq.com/interviews/nolen-transit-react-om): [Jordan Walke[(https://twitter.com/jordwalke) https://news.ycombinator.com/item?id=6937921, 
+
+
+
+Another motivation was to try out [React](http://facebook.github.io/react), Facebook's solution for building web UIs and one of the latest contenders in the "JavaScript MVC" field. Om is built on top of React, maintaining a lot of its structure, so I'd learn a lot about React in an Om project.  
+At Railslove, we mostly used [Backbone Marionette](http://marionettejs.com) as our "Javascript MVC" solution in the past. We soon hit a wall when building larger apps. Because Backbone is essentially finished and not ideal and because Marionette long seemed to be a one-man show with slowing development progress (it isn't anymore), we started exploring alternatives.  
+I never really warmed up to Ember or Angular. And yet, when React was released, I had a brief look and then largely ignored it. Its [JSX templates](https://facebook.github.io/react/docs/jsx-in-depth.html) looked odd, components unifying templates and views seemed weird, and I couldn't see its benefits. It looked like a misguided project by a company otherwise stuck in PHP land...  
+Ironically, David had very similar feelings at first. Here's how he describes his conversion:  
+
+> I totally wrote it off. I was like, “This is not something I’m ever going to use.” But I have a good friend, Brandon Bloom, who [...] was familiar with programming games on the Xbox. When React came out, he was like, “Yeah, it looks weird. But you really should look at how it works because it’s like the way that game developers do game engines.” [...] then [React maintainer] [Pete Hunt](https://twitter.com/floydophone) went to JSConf in 2013 and he gave a [great talk](https://www.youtube.com/watch?v=x7cQ3mrcKaY) about the design. [...] It wasn’t just a sales pitch about how this solves all your problems. It really explained the architecture behind it. And I sort of got an epiphany.  
+<br>
+[http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen](http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
+
+Pete Hunt's React talks are great and sparked a lasting interest in React in me. In ["The Secrets of React's Virtual DOM" (FutureJS 2014)](https://www.youtube.com/watch?v=-DX3vJiqxm4) he names **simplicity** as the driving factor in React's design, quoting Rich Hickey.
+
+### Reimplement Irmingard
+When looking for a suitable project to try out Om, I quickly thought of [Irmingard](https://github.com/paulwittmann/irmingard-backbone) - a Solitaire-like browser card game I had built with Backbone Marionette in 2012 and had been planning to rebuild for a while. Irmingard is a good use case for Om because it has a simple view structure and data model. It is a single-player, round-based game which requires no server communication besides initially serving HTML, CSS, and JavaScript. I'd used Irmingard to teach myself Backbone Marionette, so I hoped I could make similar progress in Clojure land.  
+Coincidentally, Irmingard always lacked an undo feature - which is more of a nice-to-have, but always posed a technical challenge for me. None of my previous implementation ideas for undo felt very elegant, while David promised that "Om UIs get undo for free".  
+A couple of days later, his demo was ready: [undo in 13 lines of ClojureScript](https://swannodette.github.io/2013/12/31/time-travel). This was too good to be true and together with Pete Hunt's intriguing [presentation on React's philosophy](https://www.youtube.com/watch?v=x7cQ3mrcKaY) it convinced me to try Om out.  
+
+My plan was to reimplement Irmingard in ClojureScript and Om - and rechristen it **Omingard** accordingly. My aim wasn't so much to rewrite Irmingard in a _better_, cleaner or radically simpler fashion, but first of all to learn how a familiar problem could be solved _differently_ in functional progamming style.  
+At some points, I deliberately picked yet another new solution to fully immerse myself into the Clojure way of doing things: I chose [Garden](https://github.com/noprompt/garden) as my CSS preprocessor instead of the familiar [Sass](http://sass-lang.com).  
+Handling all these new [tea cups](http://www.chris-granger.com/2014/03/27/toward-a-better-programming) would be difficult, which is why I had to make some pragmatic decisions as well. After I'd failed to get [Midje](https://github.com/marick/Midje) or [clojurescript.test](https://github.com/cemerick/clojurescript.test) to run, I spun my own test setup. It's nothing fancy, but was easy to set up and served my purpose well enough. As you can see, Omingard isn't as pretty as Irmingard yet and has no very good mobile support so far. My focus was on building a working prototype and getting it out the door as soon as possible.  
+
+# TODO
+More David Nolen talks by March,
+was busy changing diapers for 2 months
+Omingard's first commit dates from 20th June, 2014. At first it was a weekend project, but it soon became my 20% project at work.
+
+## Development Experience
+
++ tried emacs at first, too hard to set up a REPL (gist!), didn't know how to open files or close the program... too many new things -> be pragmatic. use lighttable - which has awesome cljs REPL integration but is otherwise not a very rich - and occasionally still buggy - editor.
+
++ [Lighttable live debugging in ClojureScript REPL](https://www.youtube.com/watch?v=C0Mf_KIWX38)
+  connecting browser with an editor - live debugging
+  ClojureScript code is compiled by Leiningen to JavaScript, which is sent to the browser via a ... connection, where it's executed and the result is sent back to the editor.
+  Wouldn't use Lighttable as my main editor - sometimes used vim to get a better overview of things (easier panel views).
+  Emacs & Piggieback instructions: https://gist.github.com/paulwittmann/f25ef2ecc8e8539f293d
++ Leiningen.
++ Great tutorials (Om Wiki, Lighttable tutorial). clone tutorial code
++ Had to update ClojureScript at one point to fix a problem with Google Closure Compiler advanced compilation mode.
++ No problems updating packages, no compatibility issues despite updating Om from ... to ...and React from ... to ... Leiningen is a robust build tool, [Clojars](https://clojars.org) has over 10,000 libraries.
++ Active community
++ EuroClojure, Cologne Clojure Group
++ ![Meeting David on a bridge in Kraków](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/meeting_david_on_the_bridge.jpg)
+
+---
+
+
+[![Irmingard](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/irmingard_screenshot.jpg)](http://irmingard.herokuapp.com)
+
+## How to play Omingard
+![Omingard screenshot](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/omingard_screenshot_how_to_play.png)
+Also see the <a href="#video-demo">video demo</a> above.
+
+### 9 Columns, 8 piles, and the stack
+Omingard is a single-player patience game with 104 rummy cards. Before the game starts, the cards are shuffled and 25 cards are distributed to 9 columns in the form of a triangle. The goal of the game is to move all cards to 8 discard piles at the bottom of the board. You start putting aces on piles, followed by 2s, 3s, etc.  
+The columns is where the main action happens. You move cards around to gain access to other cards above them. When you get stuck, you press "Hit me", which will serve 9 new cards from the stack - 1 per column. This can open up new moves but will at first also block previous cards in the same column.  
+The game board doesn't show the stack's cards. Their number is shown in parantheses on the blue "Hit me!" button in the lower right.
+
+### Moving cards
+Cards can be moved below other cards if:
+
++ the parent and the child have different colours (black or red).
++ and the child's value is one lower than the parent's (king, queen, jack, 10, 9, ... 2, ace).
+
+A column's last card is always moveable, but cards with children are moveable only when all their children are in order. Here's an example:  
+
+![example card column](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/card_column.png)
+
+In this column, only ♣8 and <span style="color:red">♥7</span> are moveable. All other cards are out of order because there's a red 9 missing between ♣10 and ♣8. You're free to either just move <span style="color:red">♥7</span>, or both ♣8 and <span style="color:red">♥7</span> to another column.  
+Since the rest of the column is in order, after you have moved ♣8 and <span style="color:red">♥7</span> to another column, all cards in the column become moveable.  
+Since there's no card higher than a king you can only move them to empty columns.
+
+The game ends when there are no more moves - you lose - or all cards have been discarded to piles - you win!  
+You usually lose, which makes winning all the more rewarding. I find Omingard a very relaxing game that makes you forget what you did before, lets you take your time, and is very easy to get into when you have a few minutes to spare.
+
+---
+
+## Technologies Used
+
+As I said earlier, my goal was to gather experience with new stuff. Apart from the [Google Closure Compiler](https://developers.google.com/closure/compiler) I'd never used any of the following before - it was quite a trip :) Here's an overview:
+
+![technologies](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/technologies_architecture.png)
+
+The UI is driven by React, which I'm controlling via Om, which is written in ClojureScript, as are the game logic functions that are being called from Om.
+
+### React
+React is Facebook's contender in the ["JavaScript MVC"](http://www.smashingmagazine.com/2012/07/27/journey-through-the-javascript-mvc-jungle) field. It was [released in May 2013](https://github.com/facebook/react/commit/75897c2dcd1dd3a6ca46284dd37e13d22b4b16b4), drives all of Instagram and is widely [used on Facebook](https://facebook.github.io/react/docs/examples.html). Github's Atom editor recently [switched to React](http://blog.atom.io/2014/07/02/moving-atom-to-react.html) to improve its rendering performance - Adobe's Bracket team [is working on it](http://www.kevindangoor.com/2014/09/intro-to-the-new-brackets-project-tree).
+
+#### Provisio: so-called Javascript MVC
+A small proviso: "the JavaScript MVC field" is a problematic term. Not all of its players follow MVC, or at least have very different ideas of MVC. Many speak of "JavaScript MV\*" instead. Angular gave up the categorisation fight and just says it's MVW - "Model, View, Whatever". For lack of a better name for modern client-side JavaScript libraries (or frameworks) for building user interfaces, I'll just stick with the customary "JavaScript MVC", or "JS-MVC" for short.  
+React stands out even with this lax definition, since all it offers is the "V" in MVC. However, the concepts it introduced to just this third of MVC are so interesting and simplify view rendering so vastly, that it is making large waves. It's become popular to replace the view layer in other JS-MVC frameworks with React ([Angular with React](http://www.williambrownstreet.net/blog/2014/04/faster-angularjs-rendering-angularjs-and-reactjs), [Backbone with React](https://github.com/tastejs/todomvc/tree/gh-pages/labs/architecture-examples/react-backbone)) and Ember is [planning to port](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview#slide=id.g380053cce_1786) some of React's ideas. For the purposes of building Omingard, React was more than enough - even though it's not a full-blown MVC framework.
+
+#### Virtual DOM - React's killer feature
+One of the biggest challenges of JS-MVCs is propagating data changes to views. Say you have a sidebar listing users and in your content area you can edit a user's details. When you change the user's name in an input field, you want the user's name in the content area and the entry in the user list to be updated. To achieve this in Backbone, for example, the entire view that handles the list entry in the sidebar, as well as the view that renders a user's details in the content area, would have to be completely redrawn. In other JS-MVC solutions it's basically the same story - or complexity's been abstracted away for you (but is still there!) to work around the issue.  
+React takes an entirely different approach. The largest bottleneck in rendering performance is manipulating the DOM, while JavaScript performance has gotten better and better:
+
+  > often devs still approach performance of JS code as if they are riding a horse cart but the horse had long been replaced with fusion reactor
+  [Vyacheslav Egorov (@mraleph) - December 13, 2013](https://twitter.com/mraleph/status/411549064787152896)
+
+When you change data in React, all React components (React doesn't call them views) get rerendered. It might sound well crazy, but - wait for it - isn't a problem at all since they don't render to the actual DOM. Instead, they use a virtual DOM, which is nothing but a plain JavaScript object in memory. Once that's done, React diffs the previous virtual DOM with the new one, and creates a minimal changeset of JavaScript instructions to modify the actual DOM. This way, only those places where we actually have a user's name get rerendered.
+
+React's architecture is actually modeled on how computer game engines work. Here's a diagram of the Doom 3 engine overlaid with the corresponding React components:
+
+[![Diagram of Doom 3 engine overlaid with React components](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/react_doom_3_rendering.png)](https://www.youtube.com/watch?v=DgVS-zXgMTk#t=1432)
+
+The React guys are serious about their gaming connection: [github.com/petehunt/wolfenstein3D-react](https://github.com/petehunt/wolfenstein3D-react) :)
+
+Without the virtual DOM, rerendering everything on any change - every user entry in the sidebar and everything else on the page - simplifies things conceptually, but is crazy in terms of performance. With React's virtual DOM, we get all the benefits of conceptual simplicity with performance that's  - you don't have to worry about how the user's name gets updated everywhere and it's very easy to reason about our UI when _everything_ gets rerendered on any change - it's as if the [good old days of server-side apps](https://lh5.googleusercontent.com/Fp6NGvlBpHT_pKKqtEVMbqEhZr-UFxhSQHcrt5AUFgK7yNolpGj6cqACTZ8vbb1zLavfkKrj5Rkiv7zt7wZLyb_JZc93J0EtNOmCcS2icObmV6LeIi7XJaL17S5YkQ) were back.
+
+React is complemented by Facebook's [Flux](https://github.com/facebook/flux) - an "application architecture for building user interfaces". Flux high up on my list of next things to check out.
+
+#### Components
+![Om component structure](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/component_structure.png)
+
+### ClojureScript
+ClojureScript is Clojure targeting JavaScript engines. Clojure is a hosted LISP dialect which runs on the Java Virtual Machine (JVM). For platforms where the JVM can't run, there are two complementary implementations. [ClojureScript](http://clojure.org/clojurescript) targetting JavaScript engines, and [ClojureCLR](http://clojure.org/clojureclr) for Microsoft's Common Language Runtime (CLR).  
+The Clojure compiler is written in Java and compiles Clojure code to Java bytecode. Clojure is usually categorised as an impure functional language. Eric Normand convincingly [makes the case](http://www.lispcast.com/clojure-is-imperative) that Clojure is actually an imperative language that just lends itself very well for functional programming.  
+ClojureScript was released in 2011 (4 years after Clojure), to allow running Clojure in browsers. Some call JavaScript ["the Assembly of the web"](http://www.hanselman.com/blog/JavaScriptIsWebAssemblyLanguageAndThatsOK.aspx). And like the inventors of ClojureScript, I think it's a [good idea](http://notes.ericjiang.com/posts/751) to program in a better language. Usually I've used CoffeeScript for that, which compiles to JavaScript while maintaining JavaScript semantics.  
+ClojureScript, however, "has the same language semantics as Clojure, not JavaScript" ([ClojureScript is not JavaScript with Clojure syntax](http://clojure.com/blog/2011/07/22/introducing-clojurescript.html)). To achieve this, the output from the ClojureScript compiler is not just the code you wrote, but also code that recreates Clojure's data structures in JavaScript.  
+For a standalone library offering ClojureScript's immutable data structures in JavaScript, see David Nolen's library [mori](https://github.com/swannodette/mori).
+
+### Leiningen
++ Package manager and build tool - much like [bundler](http://bundler.io) and [Grunt](http://gruntjs.com), but written in Clojure and running on the JVM.
++ Well maintained - [clojars.org](https://clojars.org) has over 10,000 libraries.
++ Irmingard: is only a Rails application because that was the easiest way for me to set up CoffeeScript compilation.
+
+### Om
+First released in late 2013, Om has shaken up the JavaScript world and helped propel React and immutable data structures. 
+  Advantages over React: immutable persistent data structures that work like Git (https://github.com/strangeloop/StrangeLoop2013/blob/master/slides/sessions/Allaun-FunctionalVectorsMapsAndSetsInJulia.pdf). Also: faster diffing b/c we only need to do reference equality checks. Facebook is picking up on this idea: [Facebook immutable JS](https://github.com/facebook/immutable-js).
+
+At first, I thought all David had done was create a way to control React in a more idiomatic way in ClojureScript. But Om is more than a wrapper around React - it extends it with some own concepts. Its most interesting design decision is its global app state - very much like a database. Together with ClojureScript's immutable data structures, this is the biggest difference to vanilla React.  
+
+  + is **not** MVC - not even M since it follows functional programming principles (no hidden state, plain functions). David: MVC: Trygve Reenskaug 1979; is a sound concept but implementations aren't very good. Addy Osmani: https://addyosmani.github.io/backbone-fundamentals/#mvc
+
+  + "It was like because React is based on diffing and it’s not based on observation, I really saw an opportunity for immutable data structures to basically make React’s diffing process much faster. Because of immutable data, the diffing algorithm just has to do less work." (http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
+  + David stresses that Om is still first and foremost an experiment. It's a bit of a pity that David still doesn't accept pull requests for Om and that we can only guess where Om is headed - or whether he's already preparing the next experiment :)
+  + Alternatives: [Quiescent](https://github.com/levand/quiescent), "a lightweight ClojureScript abstraction over ReactJS", and [Reagent](https://github.com/holmsand/reagent), "a minimalistic ClojureScript interface to React.js".
+  + [core.async](http://go.cognitect.com/core_async_webinar_recording) for inter-component communication
+
+### Garden
+I used [Garden](https://github.com/noprompt/garden) as a CSS preprocessor, whose code looks like this:
+![Screenshot of Garden code](https://rawgit.com/paulwittmann/railslove-website-images/master/omingard/garden_screenshot.png)
+
+Contrary to Sass, Garden uses plain Clojure data structures, which has the benefit that you can use all of Clojure's normal functions (like [map](https://github.com/paulwittmann/omingard/blob/master/src/omingard_css/core.clj#L39)) to operate on them - no need for special [Sass functions](http://sass-lang.com/documentation/Sass/Script/Functions.html) and [http://sass-lang.com/documentation/file.SASS_REFERENCE.html#sassscript].
+
+### Google Closure Tools
+ClojureScript is tightly integrated with Google Closure Tools for dependency management and code minification. Despite the similar name, Closure Tools are not related to Clo**j**ure. The [Google Closure Compiler](http://closure-compiler.appspot.com/home) crunches Omingard's code down from 1.8 megabytes to 307 kilobytes (72 kilobytes after gzipping). In advanced mode, it compresses way better than Uglifier by aggressively eliminating unused code. Usually it's a big hassle to keep your JavaScript code Google Closure Compiler-compliant. React, e.g., isn't, which is why it's been precompiled in another compilation mode and gets prepended to the compilation. It's great that ClojureScript is designed to be used with the best possible minification.
+
+---
+
+## Code - in comparison to Irmingard!?
+
++ code samples!?
+
+---
+
+<div style="text-align:center;">ॐ &nbsp;&nbsp;&nbsp; ॐ &nbsp;&nbsp;&nbsp; ॐ</div>
+
+### Planned Features
++ Mobile friendly UI.
++ UI polishing.
++ many other issues, follow my progress here: https://github.com/paulwittmann/omingard/issues
+
+---
+
+## Conclusion
+Learned a lot about functional programming, Clojure(Script), and React.
+
+### Thank you
++ David Nolen: for Om and the excellent Om tutorials, without which I'd never have been able to write Omingard.
++ [Max Weber](https://twitter.com/webermaximilian), [Moritz Ulrich](https://twitter.com/the_kenny), and [Moritz Heidkamp](http://twitter.com/dergutemoritz).
++ [Clojure Cologne User Group](http://www.meetup.com/clojure-cologne)
+
+## Challenges / Lessons learned
+
++ you really get used to the brackets and with rainbow params it's no harder than matching `ends` in Ruby code.
++ very precise and clean language with great ways of abstraction (partial).
++ to get into an eco system don't buy one book and hide in a corner for a year - join a user group, talk to others, follow interesting people on Twitter (you may start with book authors and then follow people they retweet or talk to). What convinced me of Clojure in the first place was not the language specification but [Rich Hickey's many great talks](http://thechangelog.com/rich-hickeys-greatest-hits) you can follow without knowing much about Clojure. ["Simplicity matters"](https://www.youtube.com/watch?v=rI8tNMsozo0) at Railsconf 2012 got me started. Another inspiring meta talk I come back to again and again when thinking about programming and Clojure is Tim Ewald's [Clojure: Programming with Hand Tools](https://www.youtube.com/watch?v=ShEez0JkOFw). It's one of the best talks I've ever seen - but I may be spoiled from reading too much [Heidegger](http://plato.stanford.edu/entries/heidegger/#ModEnc).
++ go to you local user group and get help. Follow interesting people and people they follow / retweet on Twitter. Go to conferences (EuroClojure).
+
+<div style="text-align:center;">ॐ &nbsp;&nbsp;&nbsp; ॐ &nbsp;&nbsp;&nbsp; ॐ</div>
+
+
+### The Road ahead for me
++ more Om
++ server-side web app in Clojure
++ SICP
++ Haskell
+
+---
+
+## Links & Further Reading
+
+**Tutorials &amp; first steps**  
+
++ [Om Wiki](https://github.com/swannodette/om/wiki) - David Nolen
++ [ClojureScript Programming Language Tutorial for Light Table Users](https://github.com/swannodette/lt-cljs-tutorial) - David Nolen
++ [Facebook React Tutorial](https://facebook.github.io/react/docs/tutorial.html)
++ [Modern ClojureScript](https://github.com/magomimmo/modern-cljs) - A series of tutorials on ClojureScript.
++ [Designing Front End Applications with core.async](http://go.cognitect.com/core_async_webinar_recording) - David Nolen
++ [ClojureScript Wiki: Differences from Clojure](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure)
+
+**Further Reading**  
+
++ Pete Hunt: ["The Secrets of React's Virtual DOM"](https://www.youtube.com/watch?v=-DX3vJiqxm4) (FutureJS 2014)
++ [Removing User Interface Complexity, or Why React is Awesome](http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome)
++ A look at React from one of Ember's core team members: [https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY)
++ JavaScript Jabber with David Nolen: ["ClojureScript & Om"](http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
++ David Nolen: ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
++ David Nolen: ["The Functional Final Frontier"](https://www.youtube.com/watch?v=xeEojV8K7Lk) (GOTO conference)
+
+**Who to follow**  
+
++ [David Nolen](https://twitter.com/swannodette)
++ [Pete Hunt](https://twitter.com/floydophone)
+
+**Clojure Eco System**  
+
++ [Clojure Gazette](http://www.clojuregazette.com) by Eric Normand
++ [Cognicast](http://blog.cognitect.com/cognicast)
++ [4clojure](http://www.4clojure.com) - Learn Clojure by solving interesting problems.
+
+<a name="recommended_books"><b>Recommended Books</b></a><br>
+
++ [Clojure Programming](http://www.clojurebook.com)
++ [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/full-text/book/book.html)
+
+**Amazing ClojureScript Projects**  
+
++ [Co(de)factory](http://devartcodefactory.com/#/home) by [Karsten Schmidt](https://twitter.com/toxi) - part of DevArt by Google and Barbican Centre of Arts. [Interview with Karsten Schmidt](https://www.youtube.com/watch?v=tKIVJ2TaS2k)
++ [Goya](https://jackschaedler.github.io/goya), a pixel art editor by Ableton developer [Jack Schaedler](https://twitter.com/JackSchaedler).
+
+**Links for the previous Backbone Marionette implementation - Irmingard**  
+
++ Play: [http://irmingard.herokuapp.com](http://irmingard.herokuapp.com)
++ Code: [https://github.com/paulwittmann/irmingard-backbone](https://github.com/paulwittmann/irmingard-backbone)
++ Cologne JS talk - November 2012:  
+  German slides: [https://github.com/paulwittmann/colognejs-talk-2012-11/blob/master/README.md](https://github.com/paulwittmann/colognejs-talk-2012-11/blob/master/README.md)
+  notes: [https://github.com/paulwittmann/colognejs-talk-2012-11/blob/master/README.md](https://github.com/paulwittmann/colognejs-talk-2012-11/blob/master/README.md)
+
+**More Links**  
+
++ http://lincolnloop.com/blog/architecting-your-app-react-part-1/
++ component hierarchy: http://maketea.co.uk/2014/03/05/building-robust-web-apps-with-react-part-1.html
++ http://hypirion.com/musings/understanding-persistent-vector-pt-1
++ https://github.com/strangeloop/StrangeLoop2013/blob/master/slides/sessions/Allaun-FunctionalVectorsMapsAndSetsInJulia.pdf
++ http://pchristensen.com/blog/articles/sfcljs-august-meetup-om
